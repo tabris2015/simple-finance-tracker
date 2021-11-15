@@ -1,4 +1,5 @@
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+from datetime import datetime
 from pydantic import BaseModel
 from google.cloud.firestore import Client
 
@@ -33,8 +34,20 @@ class CRUDBase(Generic[ModelType, CreateModelType, UpdateModelType]):
         if doc.exists:
             return self.model(id=doc.id, **doc.to_dict())
 
-    def update(self):
-        pass
+    def update(self, db: Client, *, db_obj: ModelType, obj_in: Union[UpdateModelType, Dict[str, Any]]) -> ModelType:
+        if isinstance(obj_in, dict):
+            update_data = obj_in
+        else:
+            update_data = obj_in.dict(exclude_none=True)
 
-    def remove(self):
-        pass
+        for key, value in update_data.items():
+            setattr(db_obj, key, value)
+
+        doc_ref = db.collection(self.collection_name).document(update_data["id"])
+        doc_ref.update({key: value for key, value in update_data.items() if key != "id"})
+        doc = doc_ref.get()
+        return self.model(id=doc.id, **doc.to_dict())
+
+    def remove(self, db: Client, *, model_id: Any) -> ModelType:
+        # soft deletes
+        return self.update(db, db_obj=self.get(db, model_id), obj_in={"id": model_id, "deleted_at": datetime.utcnow()})

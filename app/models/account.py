@@ -11,7 +11,7 @@ class AccountBase(BaseModel):
     type: str
 
 
-class Account(AccountBase):
+class Account(AccountBase, TimestampDBBase):
     pass
 
 
@@ -20,7 +20,7 @@ class AccountCreate(AccountBase, TimestampDBBase):
 
 
 class AccountUpdate(AccountBase):
-    id: Optional[str]
+    id: str
     name: Optional[str]
     description: Optional[str]
     bank: Optional[str]

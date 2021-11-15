@@ -2,8 +2,8 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from google.cloud.firestore import Client
 from app.database.firestore_session import get_session
-from app import crud
-from app.models.account import Account, AccountCreate
+from app import crud, schemas
+from app.models.account import Account, AccountCreate, AccountUpdate
 
 router = APIRouter()
 
@@ -26,3 +26,23 @@ def read_account(*, db: Client = Depends(get_session), id: str):
 def create_account(*, db: Client = Depends(get_session), account_in: AccountCreate):
     account = crud.account.create(db, obj_in=account_in)
     return account
+
+
+@router.put("", response_model=Account)
+def update_account(*, db: Client = Depends(get_session), account_in: AccountUpdate):
+    account = crud.account.get(db, model_id=account_in.id)
+    if not account:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Account doesn't exist")
+
+    account = crud.account.update(db, db_obj=account, obj_in=account_in)
+    return account
+
+
+@router.delete("", response_model=schemas.Message)
+def delete_account(*, db: Client = Depends(get_session), id: str):
+    account = crud.account.get(db, model_id=id)
+    if not account:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Account doesn't exist")
+
+    crud.account.remove(db, model_id=id)
+    return schemas.Message(message=f"Account with ID={id} deleted.")
