@@ -8,7 +8,7 @@ services:
       PORT: "8000"
       K_SERVICE: "local"
       K_CONFIGURATION: "local"
-      K_REVISION: "local-00001"
+      K_REVISION: "local-docker"
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/keys/KEY.json"
       FIRESTORE_EMULATOR_HOST: "firestore:8787"
       FIRESTORE_PROJECT_ID: "finance-local"
