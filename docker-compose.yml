@@ -13,7 +13,7 @@ services:
       FIRESTORE_EMULATOR_HOST: "firestore:8787"
       FIRESTORE_PROJECT_ID: "finance-local"
     volumes:
-      - ./dev-KEY.json:/tmp/keys/KEY.json:ro
+      - ./dev-key.json:/tmp/keys/KEY.json:ro
     depends_on:
       - firestore
 
