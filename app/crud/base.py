@@ -16,8 +16,8 @@ class CRUDBase(Generic[ModelType, CreateModelType, UpdateModelType]):
     def get(self, db: Client, model_id: Any) -> Optional[ModelType]:
         doc_ref = db.collection(self.collection_name).document(model_id)
         doc = doc_ref.get()
-
-        return self.model(id=doc.id, **doc.to_dict())
+        if doc.exists:
+            return self.model(id=doc.id, **doc.to_dict())
 
     def get_multi(self, db: Client) -> List[ModelType]:
         obj_list = []
