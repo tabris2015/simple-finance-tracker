@@ -11,18 +11,15 @@ services:
       K_REVISION: "local-docker"
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/keys/KEY.json"
       FIRESTORE_EMULATOR_HOST: "firestore:8787"
-      FIRESTORE_PROJECT_ID: "finance-local"
     volumes:
       - ./dev-key.json:/tmp/keys/KEY.json:ro
     depends_on:
       - firestore
 
   firestore:
-    image: mtlynch/firestore-emulator
+    image: ridedott/firestore-emulator
     environment:
-      FIRESTORE_PROJECT_ID: "finance-local"
       PORT: "8787"
     ports:
       - "127.0.0.1:8787:8787"
-      - "127.0.0.1:4000:4000"
     restart: unless-stopped
