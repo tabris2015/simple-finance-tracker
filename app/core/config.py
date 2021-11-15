@@ -14,7 +14,6 @@ class Settings(BaseSettings):
 
     FIRESTORE_EMULATOR_HOST: str = None
 
-
     class Config:
         env_file = ".env"
 

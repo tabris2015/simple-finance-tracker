@@ -9,3 +9,20 @@ services:
       K_SERVICE: "local"
       K_CONFIGURATION: "local"
       K_REVISION: "local-00001"
+      GOOGLE_APPLICATION_CREDENTIALS: "/tmp/keys/KEY.json"
+      FIRESTORE_EMULATOR_HOST: "firestore:8787"
+      FIRESTORE_PROJECT_ID: "finance-local"
+    volumes:
+      - ./dev-KEY.json:/tmp/keys/KEY.json:ro
+    depends_on:
+      - firestore
+
+  firestore:
+    image: mtlynch/firestore-emulator
+    environment:
+      FIRESTORE_PROJECT_ID: "finance-local"
+      PORT: "8787"
+    ports:
+      - "127.0.0.1:8787:8787"
+      - "127.0.0.1:4000:4000"
+    restart: unless-stopped
