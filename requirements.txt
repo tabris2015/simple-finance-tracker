@@ -1,0 +1,6 @@
+fastapi==0.70.0
+uvicorn==0.15.0
+pydantic==1.8.2
+firebase-admin==5.1.0
+google-cloud-firestore==2.3.4
+mock-firestore==0.10.0
