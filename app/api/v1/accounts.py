@@ -15,7 +15,7 @@ def read_accounts(db: Client = Depends(get_session)):
 
 
 @router.get("/{id}", response_model=Account)
-def read_account(*, db: Client = Depends(get_session), id: int):
+def read_account(*, db: Client = Depends(get_session), id: str):
     account = crud.account.get(db, model_id=id)
     if not account:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Account doesn't exist")
