@@ -1,10 +1,10 @@
+from typing import Optional
 from pydantic import BaseModel
-from app.models.account import Account
-from app.models.db_base import DBBase
+from app.models.db_base import TimestampDBBase
 
 
-class EntryBase(BaseModel):
-    account: Account
+class EntryBase(TimestampDBBase):
+    account_id: str
     balance: int
 
 
@@ -12,6 +12,10 @@ class Entry(EntryBase):
     pass
 
 
-class EntryCreate(EntryBase, DBBase):
+class EntryCreate(EntryBase):
     pass
 
+
+class EntryUpdate(BaseModel):
+    account_id: Optional[str]
+    balance: Optional[int]
