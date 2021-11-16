@@ -1,6 +1,19 @@
-from typing import Optional, List
-from pydantic import BaseModel, Field
+from typing import Optional
+from enum import Enum
+from pydantic import BaseModel
 from app.models.db_base import TimestampDBBase
+
+
+class AccountTypeEnum(str, Enum):
+    emergency = "emergency"
+    savings = "savings"
+    safi = "safi"
+    proxy = "proxy"
+
+
+class CurrencyEnum(str, Enum):
+    bs = "BS"
+    us = "US"
 
 
 class AccountBase(BaseModel):
@@ -8,7 +21,9 @@ class AccountBase(BaseModel):
     name: str
     description: Optional[str]
     bank: str
-    type: str
+    number: int
+    currency: CurrencyEnum = CurrencyEnum.bs
+    type: AccountTypeEnum = AccountTypeEnum.savings
 
 
 class Account(AccountBase, TimestampDBBase):
@@ -24,4 +39,6 @@ class AccountUpdate(AccountBase):
     name: Optional[str]
     description: Optional[str]
     bank: Optional[str]
-    type: Optional[str]
+    number: Optional[int]
+    currency: Optional[CurrencyEnum]
+    type: Optional[AccountTypeEnum]

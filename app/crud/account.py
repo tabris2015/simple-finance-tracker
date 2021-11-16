@@ -1,5 +1,4 @@
-from typing import Any, List, TypeVar, Type
-from google.cloud.firestore import Client
+from typing import TypeVar, Type
 from app.crud.base import CRUDBase, ModelType
 from app.models.account import Account, AccountCreate, AccountUpdate
 
