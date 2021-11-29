@@ -149,4 +149,4 @@ cython_debug/
 #
 .terraform/
 .terraform.lock.hcl
-
+*.tfstate
