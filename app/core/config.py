@@ -4,7 +4,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
-    PROJECT_NAME: str = "Simple finance tracker"
+    PROJECT_NAME: str = "Finance tracker"
     K_SERVICE: str = "Local"
     K_REVISION: str = "local"
     LOG_LEVEL: str = "DEBUG"
